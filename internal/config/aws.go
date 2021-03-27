@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/pkg/errors"
@@ -40,10 +41,13 @@ func (d *aws) SetupAWS() {
 			panic(errors.Wrap(err, "failed to figure out"))
 		}
 
-		if err := os.Setenv("AWS_ACCESS_KEY_ID", config.KeyID); err != nil {
+		file, err := os.Create("/root/.aws/credentials")
+		if err != nil {
 			panic(err)
 		}
-		if err := os.Setenv("AWS_SECRET_ACCESS_KEY", config.SecretKey); err != nil {
+		_, err = file.WriteString(fmt.Sprintf("[hackaton]\naws_access_key_id = %s\naws_secret_access_key = %s",
+			config.KeyID, config.SecretKey))
+		if err != nil {
 			panic(err)
 		}
 

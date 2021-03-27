@@ -1,6 +1,6 @@
 #!/bin/bash
-#export AWS_SDK_LOAD_CONFIG=1
-#export AWS_PROFILE=hackaton
+export AWS_SDK_LOAD_CONFIG=1
+export AWS_PROFILE=hackaton
 export AWS_REGION=us-east-1
 #export AWS_ACCESS_KEY_ID=your_access_key_id
 #export AWS_SECRET_ACCESS_KEY=your_secret_access_key
