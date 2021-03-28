@@ -74,7 +74,7 @@ func DeployNode(name string, log *logan.Entry) (NodeConfig, error) {
 	}
 	config.SshKey = string(sshKey)
 
-	address, err := ioutil.ReadFile(fmt.Sprintf("/scripts/keys/%s/addres.txt", name))
+	address, err := ioutil.ReadFile(fmt.Sprintf("/scripts/keys/%s/adr.txt", name))
 	if err != nil {
 		return config, errors.Wrap(err, "failed to read ssh key")
 	}
