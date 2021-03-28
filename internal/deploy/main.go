@@ -3,6 +3,7 @@ package deploy
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"os/exec"
 
 	"github.com/ethereum/go-ethereum/accounts"
@@ -31,11 +32,14 @@ func Deploy(name string, log *logan.Entry) (EnvConfig, error) {
 }
 
 func DeployEC2(name string, log *logan.Entry) (NodeConfig, error) {
-	cmd := exec.Command("/bin/sh", fmt.Sprintf("cd /scripts && sh aws/create_instance.sh \"1\" \"%s\" \"%[1]s_vpc\" \"%[1]s_sub\"", name))
+	cmd := exec.Command("/bin/sh", "-c", fmt.Sprintf("cd /scripts && sh aws/create_instance.sh 1 %s Etherium_vpc Etherium_sub", name))
 	log.Info(cmd.String())
 	if err := cmd.Run(); err != nil {
 		return NodeConfig{}, errors.Wrap(err, "failed to execute create instance script")
 	}
+	stdout, _ := cmd.StdoutPipe()
+	b, _ := ioutil.ReadAll(stdout)
+	log.Info(string(b))
 
 	return NodeConfig{}, nil
 }
