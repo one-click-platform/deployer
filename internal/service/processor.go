@@ -15,9 +15,11 @@ type Processor struct {
 
 func (p *Processor) Run() {
 	p.log.Info("Async processor started")
-	task := <-p.tasks
+	for {
+		task := <-p.tasks
 
-	go p.CreateEnv(task)
+		go p.CreateEnv(task)
+	}
 }
 
 func (p *Processor) CreateEnv(name string) {
