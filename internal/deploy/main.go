@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/ethereum/go-ethereum/accounts"
 	"github.com/ethereum/go-ethereum/common"
@@ -46,6 +47,8 @@ func Deploy(name string, log *logan.Entry, githubKey string) (EnvConfig, error) 
 		return EnvConfig{}, errors.Wrap(err, "failed to deploy env")
 	}
 
+	log.Info("Deployment finished")
+
 	return EnvConfig{
 		SSHKey:       config.SshKey,
 		ValidatorKey: keyJSON,
@@ -59,6 +62,7 @@ func DeployNode(name string, log *logan.Entry) (NodeConfig, error) {
 	if err := cmd.Run(); err != nil {
 		return NodeConfig{}, errors.Wrap(err, "failed to execute create instance script")
 	}
+	log.Info("node deployed")
 
 	config := NodeConfig{}
 
@@ -74,13 +78,17 @@ func DeployNode(name string, log *logan.Entry) (NodeConfig, error) {
 	if err != nil {
 		return config, errors.Wrap(err, "failed to read ssh key")
 	}
-	config.Address = string(address)
+	config.Address = strings.ReplaceAll(string(address), "\n", "")
+	log.Info(config.Address)
 
 	ip, err := ioutil.ReadFile(fmt.Sprintf("/scripts/keys/%s/dostup.txt", name))
+	config.IP = strings.ReplaceAll(string(ip), "\n", "")
 	if err != nil {
 		return config, errors.Wrap(err, "failed to read ssh key")
 	}
-	config.Endpoint = fmt.Sprintf("http://%s:8545", ip)
+	config.Endpoint = fmt.Sprintf("http://%s:8545", config.IP)
+	log.Info(config.IP)
+	log.Info(config.Endpoint)
 
 	config.KeyStoreDir = fmt.Sprintf("/scripts/keys/%s/keystore", name)
 
@@ -88,6 +96,7 @@ func DeployNode(name string, log *logan.Entry) (NodeConfig, error) {
 }
 
 func DeploySmartcontracts(config NodeConfig, log *logan.Entry) ([]common.Address, error) {
+	log.Info("Deploying contracts")
 	client, err := ethclient.Dial(config.Endpoint)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create connection to node")
@@ -112,6 +121,7 @@ func DeploySmartcontracts(config NodeConfig, log *logan.Entry) ([]common.Address
 }
 
 func DeployEnv(config NodeConfig, addresses []common.Address, name string, log *logan.Entry, githubKey string) error {
+	log.Info("Creating env.js file")
 	envJs := fmt.Sprintf("document.ENV = {\nAUCTION_ADDRESS: '%s',\nTOKEN_ADDRESS: '%s',\nCURRENCY_ADDRESS: '%s'\n}",
 		addresses[0].String(), addresses[2].String(), addresses[1].String())
 	file, err := os.Create("/scripts/keys/env.js")
@@ -124,11 +134,13 @@ func DeployEnv(config NodeConfig, addresses []common.Address, name string, log *
 	}
 
 	cmd := exec.Command("/bin/sh", "-c", fmt.Sprintf("cd /scripts/keys && scp -i %s.pem env.js ubuntu@%s:/home/ubuntu/env.js", name, config.IP))
+	log.Info(cmd.String())
 	if err := cmd.Run(); err != nil {
 		return errors.Wrap(err, "failed to execute upload env.js script")
 	}
 
 	cmd = exec.Command("/bin/sh", "-c", fmt.Sprintf("cd /scripts/keys && ssh ubuntu@%s 'bash -s' < 'start_front.sh %s'", config.IP, githubKey))
+	log.Info(cmd.String())
 	if err := cmd.Run(); err != nil {
 		return errors.Wrap(err, "failed to execute upload env.js script")
 	}
