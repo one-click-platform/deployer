@@ -15,6 +15,8 @@ func (s *service) router() chi.Router {
 		ape.CtxMiddleware(
 			handlers.CtxLog(s.log),
 			handlers.CtxGithubKey(s.cfg.GithubKey()),
+			handlers.CtxStorage(s.storage),
+			handlers.CtxTasks(s.tasks),
 		),
 	)
 

@@ -5,7 +5,6 @@ import (
 
 	"github.com/one-click-platform/deployer/resources"
 
-	"github.com/one-click-platform/deployer/internal/deploy"
 	"github.com/one-click-platform/deployer/internal/service/requests"
 	"gitlab.com/distributed_lab/ape"
 	"gitlab.com/distributed_lab/ape/problems"
@@ -19,16 +18,18 @@ func CreateNode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	envConfig, err := deploy.Deploy(request.Name, Log(r), GithubKey(r))
-	if err != nil {
-		Log(r).WithError(err).Error("failed to deploy node")
-		ape.RenderErr(w, problems.InternalError())
+	storage := Storage(r)
+
+	if _, ok := storage[request.Name]; ok {
+		ape.RenderErr(w, problems.Conflict())
 		return
 	}
 
-	ape.Render(w, resources.EnvConfig{
-		SshKey:       envConfig.SSHKey,
-		ValidatorKey: string(envConfig.ValidatorKey),
-		Passphrase:   envConfig.Passphrase,
-	})
+	storage[request.Name] = resources.EnvConfig{
+		Status: "processing",
+	}
+
+	Tasks(r) <- request.Name
+
+	w.WriteHeader(http.StatusNoContent)
 }
