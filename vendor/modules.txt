@@ -169,7 +169,7 @@ github.com/mitchellh/mapstructure
 github.com/oklog/ulid
 # github.com/olekukonko/tablewriter v0.0.2-0.20190409134802-7e037d187b0c
 github.com/olekukonko/tablewriter
-# github.com/one-click-platform/system-contracts v0.0.0-20210327154113-2f57c5e06c68
+# github.com/one-click-platform/system-contracts v0.0.0-20210328022212-b1f807dc7920
 ## explicit
 github.com/one-click-platform/system-contracts/generated
 # github.com/pelletier/go-toml v1.2.0

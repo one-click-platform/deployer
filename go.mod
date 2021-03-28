@@ -13,7 +13,7 @@ require (
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible // indirect
 	github.com/google/jsonapi v0.0.0-20210306203318-b10ff4bf785b // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
-	github.com/one-click-platform/system-contracts v0.0.0-20210327154113-2f57c5e06c68
+	github.com/one-click-platform/system-contracts v0.0.0-20210328022212-b1f807dc7920
 	github.com/pkg/errors v0.8.1
 	gitlab.com/distributed_lab/ape v1.5.0
 	gitlab.com/distributed_lab/figure v2.1.0+incompatible

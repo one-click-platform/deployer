@@ -420,6 +420,8 @@ github.com/olekukonko/tablewriter v0.0.2-0.20190409134802-7e037d187b0c h1:1RHs3t
 github.com/olekukonko/tablewriter v0.0.2-0.20190409134802-7e037d187b0c/go.mod h1:vsDQFd/mU46D+Z4whnwzcISnGGzXWMclvtLoiIKAKIo=
 github.com/one-click-platform/system-contracts v0.0.0-20210327154113-2f57c5e06c68 h1:LgFOg/lgoTjrdeF1dh+5sguLarR1M1qMudRiivVsHQk=
 github.com/one-click-platform/system-contracts v0.0.0-20210327154113-2f57c5e06c68/go.mod h1:mysso6A41Hf7AIMvxhjoyGv11pA+MKfUTklY2E/17MM=
+github.com/one-click-platform/system-contracts v0.0.0-20210328022212-b1f807dc7920 h1:rcTVDGyRAZVZptp+qGXVVzE24l1Y8x1dISr1qqhpBd0=
+github.com/one-click-platform/system-contracts v0.0.0-20210328022212-b1f807dc7920/go.mod h1:mysso6A41Hf7AIMvxhjoyGv11pA+MKfUTklY2E/17MM=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.7.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.10.3/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=

@@ -2,6 +2,7 @@ package deployer
 
 import (
 	"context"
+
 	"github.com/ethereum/go-ethereum/accounts"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/accounts/keystore"
@@ -49,19 +50,21 @@ func (d *Deployer) TransactOpts() *bind.TransactOpts {
 }
 
 // Run deployment tasks.
-func (d *Deployer) Run(ctx context.Context, tasks []DeployFunc) error {
+func (d *Deployer) Run(ctx context.Context, tasks []DeployFunc) ([]common.Address, error) {
+	addresses := make([]common.Address, 0, len(tasks))
 	for _, tsk := range tasks {
 		addr, tx, err := tsk(d)
+		addresses = append(addresses, addr)
 		if err != nil {
-			return errors.Wrap(err, "failed to send deploy tx")
+			return nil, errors.Wrap(err, "failed to send deploy tx")
 		}
 
 		d.Log.WithField("address", addr.String()).Info("tx sent")
 
 		if _, err := bind.WaitDeployed(ctx, d.Client, tx); err != nil {
-			return errors.Wrap(err, "deploy tx has failed")
+			return nil, errors.Wrap(err, "deploy tx has failed")
 		}
 	}
 
-	return nil
+	return addresses, nil
 }

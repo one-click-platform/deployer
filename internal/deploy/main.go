@@ -24,9 +24,11 @@ func Deploy(name string, log *logan.Entry) (EnvConfig, error) {
 	if err != nil {
 		return EnvConfig{}, errors.Wrap(err, "failed to create ec2 instance")
 	}
-	//if err := DeploySmartcontracts(config, log); err != nil {
-	//	return EnvConfig{}, errors.Wrap(err, "failed to deploy smartcontracts")
-	//}
+	addresses, err := DeploySmartcontracts(config, log)
+	if err != nil {
+		return EnvConfig{}, errors.Wrap(err, "failed to deploy smartcontracts")
+	}
+	println(len(addresses))
 
 	return EnvConfig{
 		SSHKey: config.SshKey,
@@ -70,25 +72,26 @@ func DeployEC2(name string, log *logan.Entry) (NodeConfig, error) {
 	return config, nil
 }
 
-func DeploySmartcontracts(config NodeConfig, log *logan.Entry) error {
+func DeploySmartcontracts(config NodeConfig, log *logan.Entry) ([]common.Address, error) {
 	client, err := ethclient.Dial(config.Endpoint)
 	if err != nil {
-		return errors.Wrap(err, "failed to create connection to node")
+		return nil, errors.Wrap(err, "failed to create connection to node")
 	}
 
 	ks := keystore.NewKeyStore(config.KeyStoreDir, keystore.StandardScryptN, keystore.StandardScryptP)
 	acc := accounts.Account{Address: common.HexToAddress(config.Address)}
 	if err := ks.Unlock(acc, config.Password); err != nil {
-		return errors.Wrap(err, "failed to unlock contracts")
+		return nil, errors.Wrap(err, "failed to unlock contracts")
 	}
 
 	contractsDeployer, err := deployer.New(context.TODO(), client, ks, acc, log)
 	if err != nil {
-		return errors.Wrap(err, "failed to create contracts deployer")
+		return nil, errors.Wrap(err, "failed to create contracts deployer")
 	}
-	if err := contractsDeployer.Run(context.TODO(), contracts.Tasks()); err != nil {
-		return errors.Wrap(err, "failed to deploy contracts")
+	addresses, err := contractsDeployer.Run(context.TODO(), contracts.Tasks())
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to deploy contracts")
 	}
 
-	return nil
+	return addresses, nil
 }
