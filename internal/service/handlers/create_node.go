@@ -28,6 +28,7 @@ func CreateNode(w http.ResponseWriter, r *http.Request) {
 
 	ape.Render(w, resources.EnvConfig{
 		SshKey:       envConfig.SSHKey,
-		ValidatorKey: envConfig.ValidatorKey,
+		ValidatorKey: string(envConfig.ValidatorKey),
+		Passphrase:   envConfig.Passphrase,
 	})
 }

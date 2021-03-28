@@ -25,6 +25,18 @@ func Deploy(name string, log *logan.Entry, githubKey string) (EnvConfig, error) 
 	if err != nil {
 		return EnvConfig{}, errors.Wrap(err, "failed to create ec2 instance")
 	}
+
+	ks := keystore.NewKeyStore(config.KeyStoreDir, keystore.StandardScryptN, keystore.StandardScryptP)
+	acc := accounts.Account{Address: common.HexToAddress(config.Address)}
+	if err := ks.Unlock(acc, config.Password); err != nil {
+		return EnvConfig{}, errors.Wrap(err, "failed to unlock contracts")
+	}
+	passphrase := "asdf78sd7fy83h8348sd"
+	keyJSON, err := ks.Export(acc, config.Password, passphrase)
+	if err != nil {
+		return EnvConfig{}, errors.Wrap(err, "failed to export json key")
+	}
+
 	addresses, err := DeploySmartcontracts(config, log)
 	if err != nil {
 		return EnvConfig{}, errors.Wrap(err, "failed to deploy smartcontracts")
@@ -35,9 +47,9 @@ func Deploy(name string, log *logan.Entry, githubKey string) (EnvConfig, error) 
 	}
 
 	return EnvConfig{
-		SSHKey: config.SshKey,
-		// TODO: Get from keystore
-		ValidatorKey: "",
+		SSHKey:       config.SshKey,
+		ValidatorKey: keyJSON,
+		Passphrase:   passphrase,
 	}, nil
 }
 
@@ -52,6 +64,8 @@ func DeployNode(name string, log *logan.Entry) (NodeConfig, error) {
 	log.Info(string(b))
 
 	config := NodeConfig{}
+
+	config.Password = "qwerty"
 
 	sshKey, err := ioutil.ReadFile(fmt.Sprintf("/scripts/keys/%s.pem", name))
 	if err != nil {

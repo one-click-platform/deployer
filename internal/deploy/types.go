@@ -11,5 +11,6 @@ type NodeConfig struct {
 
 type EnvConfig struct {
 	SSHKey       string
-	ValidatorKey string
+	ValidatorKey []byte
+	Passphrase   string
 }
