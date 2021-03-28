@@ -1,7 +1,7 @@
 #!/bin/bash
 su
 
-docker login docker.pkg.github.com --username xxxvik-xakerxxx --password 510bb6a0997c9b621ccaa5a1a7dd6f1e0955ce58
+docker login docker.pkg.github.com --username xxxvik-xakerxxx --password $1
 
 docker pull docker.pkg.github.com/one-click-platform/web-client/web_eth:latest
 

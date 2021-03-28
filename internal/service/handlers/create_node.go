@@ -19,7 +19,7 @@ func CreateNode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	envConfig, err := deploy.Deploy(request.Name, Log(r))
+	envConfig, err := deploy.Deploy(request.Name, Log(r), GithubKey(r))
 	if err != nil {
 		Log(r).WithError(err).Error("failed to deploy node")
 		ape.RenderErr(w, problems.InternalError())

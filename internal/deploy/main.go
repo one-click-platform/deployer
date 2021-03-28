@@ -20,7 +20,7 @@ import (
 	"gitlab.com/distributed_lab/logan/v3"
 )
 
-func Deploy(name string, log *logan.Entry) (EnvConfig, error) {
+func Deploy(name string, log *logan.Entry, githubKey string) (EnvConfig, error) {
 	config, err := DeployNode(name, log)
 	if err != nil {
 		return EnvConfig{}, errors.Wrap(err, "failed to create ec2 instance")
@@ -29,7 +29,7 @@ func Deploy(name string, log *logan.Entry) (EnvConfig, error) {
 	if err != nil {
 		return EnvConfig{}, errors.Wrap(err, "failed to deploy smartcontracts")
 	}
-	err = DeployEnv(config, addresses, name, log)
+	err = DeployEnv(config, addresses, name, log, githubKey)
 	if err != nil {
 		return EnvConfig{}, errors.Wrap(err, "failed to deploy env")
 	}
@@ -100,7 +100,7 @@ func DeploySmartcontracts(config NodeConfig, log *logan.Entry) ([]common.Address
 	return addresses, nil
 }
 
-func DeployEnv(config NodeConfig, addresses []common.Address, name string, log *logan.Entry) error {
+func DeployEnv(config NodeConfig, addresses []common.Address, name string, log *logan.Entry, githubKey string) error {
 	envJs := fmt.Sprintf("document.ENV = {\nAUCTION_ADDRESS: '%s',\nTOKEN_ADDRESS: '%s',\nCURRENCY_ADDRESS: '%s'\n}",
 		addresses[0].String(), addresses[2].String(), addresses[1].String())
 	file, err := os.Create("/scripts/keys/env.js")
@@ -117,7 +117,7 @@ func DeployEnv(config NodeConfig, addresses []common.Address, name string, log *
 		return errors.Wrap(err, "failed to execute upload env.js script")
 	}
 
-	cmd = exec.Command("/bin/sh", "-c", fmt.Sprintf("cd /scripts/keys && ssh ubuntu@%s 'bash -s' < start_front.sh", config.IP))
+	cmd = exec.Command("/bin/sh", "-c", fmt.Sprintf("cd /scripts/keys && ssh ubuntu@%s 'bash -s' < 'start_front.sh %s'", config.IP, githubKey))
 	if err := cmd.Run(); err != nil {
 		return errors.Wrap(err, "failed to execute upload env.js script")
 	}
