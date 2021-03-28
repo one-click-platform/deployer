@@ -22,7 +22,7 @@ func (s *service) router() chi.Router {
 
 	r.Route("/envs", func(r chi.Router) {
 		r.Post("/", handlers.CreateNode)
-		r.Get("/:name", handlers.GetEnv)
+		r.Get("/{name}", handlers.GetEnv)
 	})
 
 	return r

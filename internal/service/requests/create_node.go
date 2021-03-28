@@ -2,8 +2,12 @@ package requests
 
 import (
 	"encoding/json"
-	"gitlab.com/distributed_lab/logan/v3/errors"
 	"net/http"
+	"strings"
+
+	validation "github.com/go-ozzo/ozzo-validation"
+
+	"gitlab.com/distributed_lab/logan/v3/errors"
 )
 
 type CreateNodeRequest struct {
@@ -17,5 +21,13 @@ func NewCreateNodeRequest(r *http.Request) (CreateNodeRequest, error) {
 		return request, errors.Wrap(err, "failed to unmarshal")
 	}
 
-	return request, nil
+	request.Name = strings.ReplaceAll(request.Name, " ", "")
+
+	return request, request.validate()
+}
+
+func (r *CreateNodeRequest) validate() error {
+	return validation.Errors{
+		"name": validation.Validate(&r.Name, validation.Required, validation.Length(1, 100)),
+	}.Filter()
 }
