@@ -59,9 +59,6 @@ func DeployNode(name string, log *logan.Entry) (NodeConfig, error) {
 	if err := cmd.Run(); err != nil {
 		return NodeConfig{}, errors.Wrap(err, "failed to execute create instance script")
 	}
-	stdout, _ := cmd.StdoutPipe()
-	b, _ := ioutil.ReadAll(stdout)
-	log.Info(string(b))
 
 	config := NodeConfig{}
 
