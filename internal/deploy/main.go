@@ -8,6 +8,8 @@ import (
 	"os/exec"
 	"strings"
 
+	"github.com/ethereum/go-ethereum/common/hexutil"
+
 	"github.com/ethereum/go-ethereum/accounts"
 	"github.com/ethereum/go-ethereum/common"
 
@@ -133,7 +135,7 @@ func DeployEnv(config NodeConfig, addresses []common.Address, name string, log *
 	}
 
 	envJs := fmt.Sprintf("document.ENV = {\nAUCTION_ADDRESS: '%s',\nTOKEN_ADDRESS: '%s',\nCURRENCY_ADDRESS: '%s',\nETHEREUM_NETWORK_TYPE: '%s',\nNODE_ENDPOINT: '%s' }",
-		addresses[0].String(), addresses[2].String(), addresses[1].String(), chainID.String(), config.Endpoint)
+		addresses[0].String(), addresses[2].String(), addresses[1].String(), hexutil.Encode(chainID.Bytes()), config.Endpoint)
 	file, err := os.Create("/scripts/keys/env.js")
 	if err != nil {
 		return errors.Wrap(err, "failed to create env.js file")
