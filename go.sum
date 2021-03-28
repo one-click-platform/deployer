@@ -422,6 +422,8 @@ github.com/one-click-platform/system-contracts v0.0.0-20210327154113-2f57c5e06c6
 github.com/one-click-platform/system-contracts v0.0.0-20210327154113-2f57c5e06c68/go.mod h1:mysso6A41Hf7AIMvxhjoyGv11pA+MKfUTklY2E/17MM=
 github.com/one-click-platform/system-contracts v0.0.0-20210328022212-b1f807dc7920 h1:rcTVDGyRAZVZptp+qGXVVzE24l1Y8x1dISr1qqhpBd0=
 github.com/one-click-platform/system-contracts v0.0.0-20210328022212-b1f807dc7920/go.mod h1:mysso6A41Hf7AIMvxhjoyGv11pA+MKfUTklY2E/17MM=
+github.com/one-click-platform/system-contracts v0.0.0-20210328055233-e926a837ced1 h1:ha/Sux6qe5FqIgh3ad1uqLchB32epR5H2Bj/BzkX4/I=
+github.com/one-click-platform/system-contracts v0.0.0-20210328055233-e926a837ced1/go.mod h1:mysso6A41Hf7AIMvxhjoyGv11pA+MKfUTklY2E/17MM=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.7.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.10.3/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
