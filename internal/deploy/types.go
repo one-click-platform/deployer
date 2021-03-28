@@ -6,6 +6,7 @@ type NodeConfig struct {
 	Address     string
 	Password    string
 	SshKey      string
+	IP          string
 }
 
 type EnvConfig struct {

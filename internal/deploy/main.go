@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"os/exec"
 
 	"github.com/ethereum/go-ethereum/accounts"
@@ -20,7 +21,7 @@ import (
 )
 
 func Deploy(name string, log *logan.Entry) (EnvConfig, error) {
-	config, err := DeployEC2(name, log)
+	config, err := DeployNode(name, log)
 	if err != nil {
 		return EnvConfig{}, errors.Wrap(err, "failed to create ec2 instance")
 	}
@@ -28,7 +29,10 @@ func Deploy(name string, log *logan.Entry) (EnvConfig, error) {
 	if err != nil {
 		return EnvConfig{}, errors.Wrap(err, "failed to deploy smartcontracts")
 	}
-	println(len(addresses))
+	err = DeployEnv(config, addresses, name, log)
+	if err != nil {
+		return EnvConfig{}, errors.Wrap(err, "failed to deploy env")
+	}
 
 	return EnvConfig{
 		SSHKey: config.SshKey,
@@ -37,7 +41,7 @@ func Deploy(name string, log *logan.Entry) (EnvConfig, error) {
 	}, nil
 }
 
-func DeployEC2(name string, log *logan.Entry) (NodeConfig, error) {
+func DeployNode(name string, log *logan.Entry) (NodeConfig, error) {
 	cmd := exec.Command("/bin/sh", "-c", fmt.Sprintf("cd /scripts && sh aws/create_instance.sh 1 %s Etherium_vpc Etherium_sub", name))
 	log.Info(cmd.String())
 	if err := cmd.Run(); err != nil {
@@ -94,4 +98,29 @@ func DeploySmartcontracts(config NodeConfig, log *logan.Entry) ([]common.Address
 	}
 
 	return addresses, nil
+}
+
+func DeployEnv(config NodeConfig, addresses []common.Address, name string, log *logan.Entry) error {
+	envJs := fmt.Sprintf("document.ENV = {\nAUCTION_ADDRESS: '%s',\nTOKEN_ADDRESS: '%s',\nCURRENCY_ADDRESS: '%s'\n}",
+		addresses[0].String(), addresses[2].String(), addresses[1].String())
+	file, err := os.Create("/scripts/keys/env.js")
+	if err != nil {
+		return errors.Wrap(err, "failed to create env.js file")
+	}
+	_, err = file.WriteString(envJs)
+	if err != nil {
+		return errors.Wrap(err, "failed to write env.js file")
+	}
+
+	cmd := exec.Command("/bin/sh", "-c", fmt.Sprintf("cd /scripts/keys && scp -i %s.pem env.js ubuntu@%s:/home/ubuntu/env.js", name, config.IP))
+	if err := cmd.Run(); err != nil {
+		return errors.Wrap(err, "failed to execute upload env.js script")
+	}
+
+	cmd = exec.Command("/bin/sh", "-c", fmt.Sprintf("cd /scripts/keys && ssh ubuntu@%s 'bash -s' < start_front.sh", config.IP))
+	if err := cmd.Run(); err != nil {
+		return errors.Wrap(err, "failed to execute upload env.js script")
+	}
+
+	return nil
 }
