@@ -5,9 +5,10 @@ type NodeConfig struct {
 	KeyStoreDir string
 	Address     string
 	Password    string
+	SshKey      string
 }
 
 type EnvConfig struct {
-	SSHKey     string
-	PrivateKey string
+	SSHKey       string
+	ValidatorKey string
 }

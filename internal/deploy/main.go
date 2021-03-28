@@ -24,11 +24,15 @@ func Deploy(name string, log *logan.Entry) (EnvConfig, error) {
 	if err != nil {
 		return EnvConfig{}, errors.Wrap(err, "failed to create ec2 instance")
 	}
-	if err := DeploySmartcontracts(config, log); err != nil {
-		return EnvConfig{}, errors.Wrap(err, "failed to deploy smartcontracts")
-	}
+	//if err := DeploySmartcontracts(config, log); err != nil {
+	//	return EnvConfig{}, errors.Wrap(err, "failed to deploy smartcontracts")
+	//}
 
-	return EnvConfig{}, nil
+	return EnvConfig{
+		SSHKey: config.SshKey,
+		// TODO: Get from keystore
+		ValidatorKey: "",
+	}, nil
 }
 
 func DeployEC2(name string, log *logan.Entry) (NodeConfig, error) {
@@ -41,7 +45,29 @@ func DeployEC2(name string, log *logan.Entry) (NodeConfig, error) {
 	b, _ := ioutil.ReadAll(stdout)
 	log.Info(string(b))
 
-	return NodeConfig{}, nil
+	config := NodeConfig{}
+
+	sshKey, err := ioutil.ReadFile(fmt.Sprintf("/scripts/keys/%s.pem", name))
+	if err != nil {
+		return config, errors.Wrap(err, "failed to read ssh key")
+	}
+	config.SshKey = string(sshKey)
+
+	address, err := ioutil.ReadFile(fmt.Sprintf("/scripts/keys/%s/addres.txt", name))
+	if err != nil {
+		return config, errors.Wrap(err, "failed to read ssh key")
+	}
+	config.Address = string(address)
+
+	ip, err := ioutil.ReadFile(fmt.Sprintf("/scripts/keys/%s/dostup.txt", name))
+	if err != nil {
+		return config, errors.Wrap(err, "failed to read ssh key")
+	}
+	config.Endpoint = fmt.Sprintf("http://%s:8545", ip)
+
+	config.KeyStoreDir = fmt.Sprintf("/scripts/keys/%s/keystore", name)
+
+	return config, nil
 }
 
 func DeploySmartcontracts(config NodeConfig, log *logan.Entry) error {
