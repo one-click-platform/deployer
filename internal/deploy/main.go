@@ -53,6 +53,7 @@ func Deploy(name string, log *logan.Entry, githubKey string) (EnvConfig, error) 
 		SSHKey:       config.SshKey,
 		ValidatorKey: keyJSON,
 		Passphrase:   passphrase,
+		IP:           config.IP,
 	}, nil
 }
 

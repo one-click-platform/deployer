@@ -13,4 +13,5 @@ type EnvConfig struct {
 	SSHKey       string
 	ValidatorKey []byte
 	Passphrase   string
+	IP           string
 }

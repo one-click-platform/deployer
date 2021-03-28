@@ -35,5 +35,6 @@ func (p *Processor) CreateEnv(name string) {
 		Passphrase:   envConfig.Passphrase,
 		SshKey:       envConfig.SSHKey,
 		ValidatorKey: string(envConfig.ValidatorKey),
+		IP:           envConfig.IP,
 	}
 }
