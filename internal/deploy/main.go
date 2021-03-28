@@ -123,8 +123,17 @@ func DeploySmartcontracts(config NodeConfig, log *logan.Entry) ([]common.Address
 
 func DeployEnv(config NodeConfig, addresses []common.Address, name string, log *logan.Entry, githubKey string) error {
 	log.Info("Creating env.js file")
-	envJs := fmt.Sprintf("document.ENV = {\nAUCTION_ADDRESS: '%s',\nTOKEN_ADDRESS: '%s',\nCURRENCY_ADDRESS: '%s'\n}",
-		addresses[0].String(), addresses[2].String(), addresses[1].String())
+	client, err := ethclient.Dial(config.Endpoint)
+	if err != nil {
+		return errors.Wrap(err, "failed to create connection to node")
+	}
+	chainID, err := client.ChainID(context.TODO())
+	if err != nil {
+		return errors.Wrap(err, "failed to get chain id")
+	}
+
+	envJs := fmt.Sprintf("document.ENV = {\nAUCTION_ADDRESS: '%s',\nTOKEN_ADDRESS: '%s',\nCURRENCY_ADDRESS: '%s',\nETHEREUM_NETWORK_TYPE: '%s',\nNODE_ENDPOINT: '%s' }",
+		addresses[0].String(), addresses[2].String(), addresses[1].String(), chainID.String(), config.Endpoint)
 	file, err := os.Create("/scripts/keys/env.js")
 	if err != nil {
 		return errors.Wrap(err, "failed to create env.js file")
