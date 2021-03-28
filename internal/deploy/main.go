@@ -145,7 +145,7 @@ func DeployEnv(config NodeConfig, addresses []common.Address, name string, log *
 		return errors.Wrap(err, "failed to execute upload start_front.sh script")
 	}
 
-	cmd = exec.Command("/bin/sh", "-c", fmt.Sprintf("cd /scripts/keys && ssh -i %s.pem  ubuntu@%s sh  start.sh %s", name, config.IP, githubKey))
+	cmd = exec.Command("/bin/sh", "-c", fmt.Sprintf("cd /scripts/keys && ssh -i %s.pem  ubuntu@%s bash -c 'sudo su $(sh start.sh %s)'", name, config.IP, githubKey))
 	log.Info(cmd.String())
 	if err := cmd.Run(); err != nil {
 		return errors.Wrap(err, "failed to execute upload start_front.sh script")
