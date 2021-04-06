@@ -1,3 +1,6 @@
+# github.com/Masterminds/squirrel v1.4.0
+## explicit
+github.com/Masterminds/squirrel
 # github.com/StackExchange/wmi v0.0.0-20180116203802-5d049714c4a6
 github.com/StackExchange/wmi
 # github.com/VictoriaMetrics/fastcache v1.5.7
@@ -93,6 +96,9 @@ github.com/ethereum/go-ethereum/rpc
 github.com/ethereum/go-ethereum/signer/core
 github.com/ethereum/go-ethereum/signer/storage
 github.com/ethereum/go-ethereum/trie
+# github.com/fatih/structs v1.1.0
+## explicit
+github.com/fatih/structs
 # github.com/fsnotify/fsnotify v1.4.9
 github.com/fsnotify/fsnotify
 # github.com/gballet/go-libpcsclite v0.0.0-20190607065134-2772fd86a8ff
@@ -114,6 +120,19 @@ github.com/go-ole/go-ole/oleutil
 github.com/go-ozzo/ozzo-validation
 # github.com/go-stack/stack v1.8.0
 github.com/go-stack/stack
+# github.com/gobuffalo/logger v1.0.3
+github.com/gobuffalo/logger
+# github.com/gobuffalo/packd v1.0.0
+github.com/gobuffalo/packd
+github.com/gobuffalo/packd/internal/takeon/github.com/markbates/errx
+# github.com/gobuffalo/packr/v2 v2.8.1
+## explicit
+github.com/gobuffalo/packr/v2
+github.com/gobuffalo/packr/v2/file
+github.com/gobuffalo/packr/v2/file/resolver
+github.com/gobuffalo/packr/v2/file/resolver/encoding/hex
+github.com/gobuffalo/packr/v2/jam/parser
+github.com/gobuffalo/packr/v2/plog
 # github.com/golang/protobuf v1.4.3
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/protoc-gen-go/descriptor
@@ -154,12 +173,31 @@ github.com/huin/goupnp/soap
 github.com/huin/goupnp/ssdp
 # github.com/jackpal/go-nat-pmp v1.0.2-0.20160603034137-1fa385a6f458
 github.com/jackpal/go-nat-pmp
+# github.com/jmoiron/sqlx v1.2.0
+github.com/jmoiron/sqlx
+github.com/jmoiron/sqlx/reflectx
 # github.com/karalabe/usb v0.0.0-20190919080040-51dc0efba356
 github.com/karalabe/usb
+# github.com/karrick/godirwalk v1.15.8
+github.com/karrick/godirwalk
 # github.com/konsorten/go-windows-terminal-sequences v1.0.3
 github.com/konsorten/go-windows-terminal-sequences
+# github.com/lann/builder v0.0.0-20180802200727-47ae307949d0
+github.com/lann/builder
+# github.com/lann/ps v0.0.0-20150810152359-62de8c46ede0
+github.com/lann/ps
+# github.com/lib/pq v1.8.0
+github.com/lib/pq
+github.com/lib/pq/oid
+github.com/lib/pq/scram
 # github.com/magiconair/properties v1.8.1
 github.com/magiconair/properties
+# github.com/markbates/errx v1.1.0
+github.com/markbates/errx
+# github.com/markbates/oncer v1.0.0
+github.com/markbates/oncer
+# github.com/markbates/safe v1.0.1
+github.com/markbates/safe
 # github.com/mattn/go-runewidth v0.0.4
 github.com/mattn/go-runewidth
 # github.com/mitchellh/mapstructure v1.1.2
@@ -238,6 +276,7 @@ gitlab.com/distributed_lab/kit/copus/types
 gitlab.com/distributed_lab/kit/janus
 gitlab.com/distributed_lab/kit/janus/internal
 gitlab.com/distributed_lab/kit/kv
+gitlab.com/distributed_lab/kit/pgdb
 # gitlab.com/distributed_lab/logan v3.8.0+incompatible
 ## explicit
 gitlab.com/distributed_lab/logan/v3
@@ -249,11 +288,15 @@ gitlab.com/distributed_lab/lorem
 # gitlab.com/distributed_lab/running v0.0.0-20200706131153-4af0e83eb96c
 gitlab.com/distributed_lab/running
 # golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
+## explicit
+golang.org/x/crypto/bcrypt
+golang.org/x/crypto/blowfish
 golang.org/x/crypto/hkdf
 golang.org/x/crypto/pbkdf2
 golang.org/x/crypto/ripemd160
 golang.org/x/crypto/scrypt
 golang.org/x/crypto/sha3
+golang.org/x/crypto/ssh/terminal
 # golang.org/x/net v0.0.0-20200822124328-c89045814202
 golang.org/x/net/html
 golang.org/x/net/html/atom
