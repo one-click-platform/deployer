@@ -18,6 +18,7 @@ require (
 	github.com/oklog/ulid v1.3.1 // indirect
 	github.com/one-click-platform/system-contracts v0.0.0-20210328055233-e926a837ced1
 	github.com/pkg/errors v0.8.1
+	github.com/rubenv/sql-migrate v0.0.0-20210215143335-f84234893558
 	gitlab.com/distributed_lab/ape v1.5.0
 	gitlab.com/distributed_lab/figure v2.1.0+incompatible
 	gitlab.com/distributed_lab/kit v1.8.5

@@ -8,7 +8,7 @@ import (
 )
 
 type SignUpRequest struct {
-	Data resources.AccountRequest
+	Data resources.Account
 }
 
 func NewSignUpRequest(r *http.Request) (SignUpRequest, error) {

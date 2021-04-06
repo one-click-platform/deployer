@@ -9,7 +9,7 @@ import (
 )
 
 type SignInRequest struct {
-	Data resources.AccountRequest
+	Data resources.Account
 }
 
 func NewSignInRequest(r *http.Request) (SignInRequest, error) {

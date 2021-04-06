@@ -205,7 +205,7 @@ github.com/mitchellh/mapstructure
 # github.com/oklog/ulid v1.3.1
 ## explicit
 github.com/oklog/ulid
-# github.com/olekukonko/tablewriter v0.0.2-0.20190409134802-7e037d187b0c
+# github.com/olekukonko/tablewriter v0.0.2
 github.com/olekukonko/tablewriter
 # github.com/one-click-platform/system-contracts v0.0.0-20210328055233-e926a837ced1
 ## explicit
@@ -221,6 +221,10 @@ github.com/pkg/errors
 github.com/prometheus/tsdb/fileutil
 # github.com/rjeczalik/notify v0.9.1
 github.com/rjeczalik/notify
+# github.com/rubenv/sql-migrate v0.0.0-20210215143335-f84234893558
+## explicit
+github.com/rubenv/sql-migrate
+github.com/rubenv/sql-migrate/sqlparse
 # github.com/shirou/gopsutil v2.20.5+incompatible
 github.com/shirou/gopsutil/cpu
 github.com/shirou/gopsutil/internal/common
@@ -356,6 +360,8 @@ google.golang.org/protobuf/reflect/protoregistry
 google.golang.org/protobuf/runtime/protoiface
 google.golang.org/protobuf/runtime/protoimpl
 google.golang.org/protobuf/types/descriptorpb
+# gopkg.in/gorp.v1 v1.7.2
+gopkg.in/gorp.v1
 # gopkg.in/ini.v1 v1.51.0
 gopkg.in/ini.v1
 # gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce
