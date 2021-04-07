@@ -4,6 +4,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/one-click-platform/deployer/internal/data/pg"
 	"github.com/one-click-platform/deployer/internal/service/handlers"
+	"github.com/one-click-platform/deployer/internal/service/middlewares"
 	"gitlab.com/distributed_lab/ape"
 )
 
@@ -27,6 +28,7 @@ func (s *service) router() chi.Router {
 		r.Post("/sign-in", handlers.SignIn)
 	})
 	r.Route("/envs", func(r chi.Router) {
+		r.Use(middlewares.AuthMiddleware)
 		r.Post("/", handlers.CreateNode)
 		r.Get("/{name}", handlers.GetEnv)
 	})

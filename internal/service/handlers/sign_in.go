@@ -18,7 +18,7 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	}
 
 	result, err := AccountsQ(r).FilterByEmail(request.Data.Attributes.Email).Get()
-	if err != nil {
+	if err != nil || result == nil {
 		Log(r).WithError(err).Info("login not found")
 		ape.RenderErr(w, problems.Forbidden())
 		return

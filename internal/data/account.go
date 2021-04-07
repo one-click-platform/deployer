@@ -4,7 +4,7 @@ type AccountsQ interface {
 	New() AccountsQ
 	Get() (*Account, error)
 	Insert(data Account) (Account, error)
-	FilterByEmail(login string) AccountsQ
+	FilterByEmail(email string) AccountsQ
 }
 
 type Account struct {
