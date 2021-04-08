@@ -18,8 +18,8 @@ func CreateNode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//User id
-	//r.Context().Value("userId")
+	// Here as example
+	// JWTPayload(r)
 	storage := Storage(r)
 
 	if _, ok := storage[request.Name]; ok {

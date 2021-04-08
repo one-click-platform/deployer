@@ -20,6 +20,7 @@ const (
 	tasksCtxKey
 	accountsQCtxKey
 	jwtCtxKey
+	jwtPayloadCtxKey
 )
 
 func CtxLog(entry *logan.Entry) func(context.Context) context.Context {
@@ -80,4 +81,14 @@ func CtxJwtHandler(entry auth.JWTokenCfg) func(context.Context) context.Context 
 
 func JwtHandler(r *http.Request) auth.JWTokenCfg {
 	return r.Context().Value(jwtCtxKey).(auth.JWTokenCfg)
+}
+
+func CtxJWTPayload(entry string) func(context.Context) context.Context {
+	return func(ctx context.Context) context.Context {
+		return context.WithValue(ctx, jwtPayloadCtxKey, entry)
+	}
+}
+
+func JWTPayload(r *http.Request) string {
+	return r.Context().Value(jwtPayloadCtxKey).(string)
 }

@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"context"
 	"github.com/one-click-platform/deployer/internal/service/handlers"
 	"gitlab.com/distributed_lab/ape"
 	"gitlab.com/distributed_lab/ape/problems"
@@ -20,10 +19,9 @@ func AuthMiddleware(h http.Handler) http.Handler {
 			return
 		}
 
-		// TODO add struct for payload(tokenClaims)
-		ctx := context.WithValue(r.Context(), "userId", tokenClaims["sub"])
-		r = r.WithContext(ctx)
-		h.ServeHTTP(w, r)
+		// TODO add struct for payload(tokenClaims) and pass it into context
+		ctx := handlers.CtxJWTPayload(tokenClaims["sub"].(string))(r.Context())
+		h.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 
