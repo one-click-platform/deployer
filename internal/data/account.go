@@ -10,5 +10,5 @@ type AccountsQ interface {
 type Account struct {
 	ID       int64  `db:"id" structs:"-"`
 	Email    string `db:"email" structs:"email"`
-	Password []byte `db:"password" structs:"password"`
+	Password []byte `db:"password_hash" structs:"password"`
 }
