@@ -30,6 +30,11 @@ type JWTokenCfg struct {
 	Secret string `fig:"secret,required"`
 }
 
+type PayloadJWT struct {
+	exp float64 `fig:"exp"`
+	sub string  `fig:"sub"`
+}
+
 func (d *jwtoken) ReadConfig() JWTokenCfg {
 	var cfg JWTokenCfg
 	err := figure.Out(&cfg).
@@ -55,13 +60,14 @@ func (cfg JWTokenCfg) CreateToken(account *data.Account) (string, error) {
 	return token.SignedString(signingKey)
 }
 
-func (cfg JWTokenCfg) VerifyToken(t string) error {
-	_, err := jwt.Parse(t, func(token *jwt.Token) (interface{}, error) {
+func (cfg JWTokenCfg) VerifyToken(t string) (*jwt.Token, jwt.MapClaims, error) {
+	claims := jwt.MapClaims{}
+	token, err := jwt.ParseWithClaims(t, claims, func(token *jwt.Token) (interface{}, error) {
 		return []byte(cfg.Secret), nil
 	})
 	if err != nil {
-		return err
+		return nil, nil, err
 	}
 
-	return nil
+	return token, claims, nil
 }
