@@ -5,17 +5,17 @@ import (
 )
 
 func HashPassword(password string) ([]byte, error) {
-	hash, error := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if error != nil {
-		return nil, error
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, err
 	}
 
 	return hash, nil
 }
 
 func PasswordsEqual(password []byte, plainPassword string) bool {
-	error := bcrypt.CompareHashAndPassword(password, []byte(plainPassword))
-	if error != nil {
+	err := bcrypt.CompareHashAndPassword(password, []byte(plainPassword))
+	if err != nil {
 		return false
 	}
 	return true
