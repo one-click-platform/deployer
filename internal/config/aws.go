@@ -54,7 +54,7 @@ func (d *aws) loadConfig() {
 			panic(errors.Wrap(err, "failed to figure out"))
 		}
 
-		file, err := os.Create("/Users/mike/root/.aws/credentials")
+		file, err := os.Create("/root/.aws/credentials")
 		if err != nil {
 			panic(err)
 		}
