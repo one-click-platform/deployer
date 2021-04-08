@@ -10,10 +10,8 @@ func NewSignUpResponse(account data.Account) resources.AccountObjectResponse {
 		Data: resources.AccountObject{
 			Key: resources.Key{},
 			Attributes: resources.AccountObjectAttributes{
-				AccessToken: "",
-				Email:       account.Email,
-				Expiry:      0,
-				Verified:    false,
+				Email:    account.Email,
+				Verified: false,
 			},
 		},
 	}

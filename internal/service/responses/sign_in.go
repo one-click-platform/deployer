@@ -11,9 +11,8 @@ func NewSignInResponse(account *data.Account, token string) resources.AccountObj
 		Data: resources.AccountObject{
 			Key: resources.Key{},
 			Attributes: resources.AccountObjectAttributes{
-				AccessToken: token,
+				AccessToken: &token,
 				Email:       account.Email,
-				Expiry:      0,
 				Verified:    false,
 			},
 		},
