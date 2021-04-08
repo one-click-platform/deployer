@@ -1,8 +1,10 @@
 post:
+  security:
+    - bearerAuth: []
   tags:
-    - Auth
-  summary: Sign in
-  operationId: signIn
+    - Environments
+  summary: Add environment
+  operationId: addEnv
   requestBody:
     content:
       application/json:
@@ -13,10 +15,10 @@ post:
           properties:
             data:
               type: object
-              $ref: '#/components/schemas/Account'
+              $ref: '#/components/schemas/Environment'
   responses:
-    '200':
-      description: Sign in successfully
+    '201':
+      description: Created
       content:
         application/json:
           schema:
@@ -24,6 +26,8 @@ post:
             properties:
               data:
                 type: object
-                $ref: '#/components/schemas/AccountObject'
-    '403':
+                $ref: '#/components/schemas/Environment'
+    '401':
+      $ref: '#/components/schemas/Errors'
+    '409':
       $ref: '#/components/schemas/Errors'

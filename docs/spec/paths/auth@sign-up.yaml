@@ -25,3 +25,5 @@ post:
               data:
                 type: object
                 $ref: '#/components/schemas/AccountObject'
+    '409':
+      $ref: '#/components/schemas/Errors'

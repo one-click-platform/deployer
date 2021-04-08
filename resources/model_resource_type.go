@@ -8,6 +8,6 @@ type ResourceType string
 
 // List of ResourceType
 const (
-	IN ResourceType = "sign-in"
-	UP ResourceType = "sign-up"
+	ACCOUNT     ResourceType = "account"
+	ENVIRONMENT ResourceType = "environment"
 )

@@ -8,8 +8,6 @@ allOf:
         type: object
         required:
           - email
-          - access-token
-          - expiry
           - verified
         properties:
           email:

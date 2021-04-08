@@ -6,6 +6,6 @@ properties:
   type:
     type: string
     enum:
-      - sign-up
+      - account
   id:
     type: integer

@@ -6,6 +6,16 @@ create table accounts (
     password_hash bytea not null
 );
 
+create table projects (
+    project_id bigserial primary key,
+    name text not null,
+    account_id bigserial,
+    foreign key (account_id) references accounts (id),
+    unique(name, account_id)
+);
+
+
+
 -- +migrate Down
 
 drop table accounts;
