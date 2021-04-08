@@ -4,7 +4,8 @@ log:
 listener:
   addr: :8000
 
-
+db:
+  url: ...
 
 aws:
   key_id: ...
