@@ -20,6 +20,7 @@ func (s *service) router() chi.Router {
 			handlers.CtxStorage(s.storage),
 			handlers.CtxTasks(s.tasks),
 			handlers.CtxAccountsQ(pg.NewAccountsQ(s.db)),
+			handlers.CtxJwtHandler(s.cfg.ReadConfig()),
 		),
 	)
 

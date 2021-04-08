@@ -2,12 +2,11 @@ package responses
 
 import (
 	"github.com/one-click-platform/deployer/internal/data"
-	"github.com/one-click-platform/deployer/internal/service/auth"
 	"github.com/one-click-platform/deployer/resources"
 )
 
-func NewSignInResponse(account *data.Account) resources.AccountObjectResponse {
-	token, _ := auth.CreateToken(*account)
+func NewSignInResponse(account *data.Account, token string) resources.AccountObjectResponse {
+
 	result := resources.AccountObjectResponse{
 		Data: resources.AccountObject{
 			Key: resources.Key{},

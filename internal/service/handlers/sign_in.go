@@ -24,12 +24,19 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !auth.PasswordsEqual(result.Password, request.Data.Attributes.Password) {
+	if !auth.PasswordsEqual(result.PasswordHash, request.Data.Attributes.Password) {
 		Log(r).WithError(err).Info("wrong password")
 		ape.RenderErr(w, problems.Forbidden())
 		return
 	}
 
-	response := responses.NewSignInResponse(result)
+	token, err := JwtHandler(r).CreateToken(result)
+	if err != nil {
+		Log(r).WithError(err).Info("can't generate token")
+		ape.RenderErr(w, problems.Forbidden())
+		return
+	}
+
+	response := responses.NewSignInResponse(result, token)
 	ape.Render(w, response)
 }

@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/one-click-platform/deployer/internal/service/auth"
 	"gitlab.com/distributed_lab/kit/comfig"
 	"gitlab.com/distributed_lab/kit/copus"
 	"gitlab.com/distributed_lab/kit/copus/types"
@@ -14,6 +15,7 @@ type Config interface {
 	comfig.Listenerer
 	pgdb.Databaser
 	Aws
+	auth.JWToken
 }
 
 type config struct {
@@ -22,6 +24,7 @@ type config struct {
 	comfig.Listenerer
 	pgdb.Databaser
 	Aws
+	auth.JWToken
 	getter kv.Getter
 }
 
@@ -33,5 +36,6 @@ func New(getter kv.Getter) Config {
 		Logger:     comfig.NewLogger(getter, comfig.LoggerOpts{}),
 		Databaser:  pgdb.NewDatabaser(getter),
 		Aws:        NewAws(getter),
+		JWToken:    auth.NewJWToken(getter),
 	}
 }
