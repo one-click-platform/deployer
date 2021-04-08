@@ -2,8 +2,8 @@
 
 create table accounts (
     id bigserial primary key,
-    email varchar(25) not null unique,
-    password bytea not null
+    email text not null unique,
+    password_hash bytea not null
 );
 
 -- +migrate Down
