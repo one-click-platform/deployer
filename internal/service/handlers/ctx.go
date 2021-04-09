@@ -21,6 +21,7 @@ const (
 	accountsQCtxKey
 	jwtCtxKey
 	jwtPayloadCtxKey
+	envsQCtxKey
 )
 
 func CtxLog(entry *logan.Entry) func(context.Context) context.Context {
@@ -91,4 +92,14 @@ func CtxJWTPayload(entry string) func(context.Context) context.Context {
 
 func JWTPayload(r *http.Request) string {
 	return r.Context().Value(jwtPayloadCtxKey).(string)
+}
+
+func CtxEnvsQ(entry data.EnvsQ) func(context.Context) context.Context {
+	return func(ctx context.Context) context.Context {
+		return context.WithValue(ctx, envsQCtxKey, entry)
+	}
+}
+
+func EnvsQ(r *http.Request) data.EnvsQ {
+	return r.Context().Value(envsQCtxKey).(data.EnvsQ).New()
 }
