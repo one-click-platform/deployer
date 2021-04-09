@@ -35,6 +35,13 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := responses.NewSignUpResponse(result)
+	token, err := JwtHandler(r).CreateToken(&result)
+	if err != nil {
+		Log(r).WithError(err).Info("can't generate token")
+		ape.RenderErr(w, problems.Forbidden())
+		return
+	}
+
+	response := responses.NewSignUpResponse(result, &token)
 	ape.Render(w, response)
 }

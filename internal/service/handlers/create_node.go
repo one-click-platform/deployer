@@ -1,7 +1,9 @@
 package handlers
 
 import (
-	"github.com/one-click-platform/deployer/resources"
+	"github.com/one-click-platform/deployer/internal/data"
+	"github.com/one-click-platform/deployer/internal/service/helpers"
+	"github.com/one-click-platform/deployer/internal/service/responses"
 	"net/http"
 
 	"github.com/one-click-platform/deployer/internal/service/requests"
@@ -17,30 +19,25 @@ func CreateNode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//accountID, err := helpers.ParsePayload(JWTPayload(r))
-	//if err != nil {
-	//	Log(r).WithError(err).Info("wrong request")
-	//	ape.RenderErr(w, problems.BadRequest(err)...)
-	//	return
-	//}
-	////TODO change sequence after making status field and reworking storage
-	//_, err = EnvsQ(r).Insert(data.Env{
-	//	Name:      request.Data.Attributes.Name,
-	//	AccountID: accountID,
-	//})
-
-	storage := Storage(r)
-
-	if _, ok := storage[request.Data.Attributes.Name]; ok {
-		ape.RenderErr(w, problems.Conflict())
+	accountID, err := helpers.ParsePayload(JWTPayload(r))
+	if err != nil {
+		Log(r).WithError(err).Info("wrong request")
+		ape.RenderErr(w, problems.BadRequest(err)...)
 		return
-	}
-
-	storage[request.Data.Attributes.Name] = resources.EnvConfig{
-		Status: "processing",
 	}
 
 	Tasks(r) <- request.Data.Attributes.Name
 
-	w.WriteHeader(http.StatusNoContent)
+	result, err := EnvsQ(r).Insert(data.Env{
+		Name:      request.Data.Attributes.Name,
+		AccountID: accountID,
+	})
+	if err != nil {
+		Log(r).WithError(err).Info("can't insert info")
+		ape.RenderErr(w, problems.Conflict())
+		return
+	}
+
+	response := responses.NewCreateNodeResponse(result, data.Account{ID: accountID})
+	ape.Render(w, response)
 }

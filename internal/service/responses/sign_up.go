@@ -5,13 +5,14 @@ import (
 	"github.com/one-click-platform/deployer/resources"
 )
 
-func NewSignUpResponse(account data.Account) resources.AccountObjectResponse {
+func NewSignUpResponse(account data.Account, token *string) resources.AccountObjectResponse {
 	result := resources.AccountObjectResponse{
 		Data: resources.AccountObject{
-			Key: resources.Key{},
+			Key: resources.NewKeyInt64(account.ID, resources.ACCOUNT),
 			Attributes: resources.AccountObjectAttributes{
-				Email:    account.Email,
-				Verified: false,
+				Email:       account.Email,
+				AccessToken: token,
+				Verified:    false,
 			},
 		},
 	}
