@@ -1,0 +1,26 @@
+allOf:
+  - $ref: '#/components/schemas/EnvironmentKey'
+  - type: object
+    required:
+      - attributes
+    properties:
+      attributes:
+        type: object
+        required:
+          - name
+        properties:
+          name:
+            type: string
+      relationships:
+        type: object
+        required:
+          - data
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/AccountObjectKey'
+      included:
+        type: array
+        items:
+          $ref: '#/components/schemas/AccountObject'

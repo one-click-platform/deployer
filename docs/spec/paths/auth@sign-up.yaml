@@ -1,0 +1,29 @@
+post:
+  tags:
+    - Auth
+  summary: Sign up
+  operationId: signUp
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              $ref: '#/components/schemas/Account'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                $ref: '#/components/schemas/AccountObject'
+    '409':
+      $ref: '#/components/schemas/Errors'

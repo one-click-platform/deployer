@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"context"
+	"github.com/one-click-platform/deployer/internal/data"
+	"github.com/one-click-platform/deployer/internal/service/auth"
 	"net/http"
 
 	"github.com/one-click-platform/deployer/resources"
@@ -16,6 +18,10 @@ const (
 	githubKeyCtxKey
 	storageCtxKey
 	tasksCtxKey
+	accountsQCtxKey
+	jwtCtxKey
+	jwtPayloadCtxKey
+	envsQCtxKey
 )
 
 func CtxLog(entry *logan.Entry) func(context.Context) context.Context {
@@ -56,4 +62,44 @@ func CtxTasks(entry chan string) func(context.Context) context.Context {
 
 func Tasks(r *http.Request) chan string {
 	return r.Context().Value(tasksCtxKey).(chan string)
+}
+
+func CtxAccountsQ(entry data.AccountsQ) func(context.Context) context.Context {
+	return func(ctx context.Context) context.Context {
+		return context.WithValue(ctx, accountsQCtxKey, entry)
+	}
+}
+
+func AccountsQ(r *http.Request) data.AccountsQ {
+	return r.Context().Value(accountsQCtxKey).(data.AccountsQ).New()
+}
+
+func CtxJwtHandler(entry auth.JWTokenCfg) func(context.Context) context.Context {
+	return func(ctx context.Context) context.Context {
+		return context.WithValue(ctx, jwtCtxKey, entry)
+	}
+}
+
+func JwtHandler(r *http.Request) auth.JWTokenCfg {
+	return r.Context().Value(jwtCtxKey).(auth.JWTokenCfg)
+}
+
+func CtxJWTPayload(entry string) func(context.Context) context.Context {
+	return func(ctx context.Context) context.Context {
+		return context.WithValue(ctx, jwtPayloadCtxKey, entry)
+	}
+}
+
+func JWTPayload(r *http.Request) string {
+	return r.Context().Value(jwtPayloadCtxKey).(string)
+}
+
+func CtxEnvsQ(entry data.EnvsQ) func(context.Context) context.Context {
+	return func(ctx context.Context) context.Context {
+		return context.WithValue(ctx, envsQCtxKey, entry)
+	}
+}
+
+func EnvsQ(r *http.Request) data.EnvsQ {
+	return r.Context().Value(envsQCtxKey).(data.EnvsQ).New()
 }

@@ -1,9 +1,10 @@
 package handlers
 
 import (
+	"github.com/one-click-platform/deployer/internal/data"
+	"github.com/one-click-platform/deployer/internal/service/helpers"
+	"github.com/one-click-platform/deployer/internal/service/responses"
 	"net/http"
-
-	"github.com/one-click-platform/deployer/resources"
 
 	"github.com/one-click-platform/deployer/internal/service/requests"
 	"gitlab.com/distributed_lab/ape"
@@ -18,18 +19,25 @@ func CreateNode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	storage := Storage(r)
+	accountID, err := helpers.ParsePayload(JWTPayload(r))
+	if err != nil {
+		Log(r).WithError(err).Info("wrong request")
+		ape.RenderErr(w, problems.BadRequest(err)...)
+		return
+	}
 
-	if _, ok := storage[request.Name]; ok {
+	Tasks(r) <- request.Data.Attributes.Name
+
+	result, err := EnvsQ(r).Insert(data.Env{
+		Name:      request.Data.Attributes.Name,
+		AccountID: accountID,
+	})
+	if err != nil {
+		Log(r).WithError(err).Info("can't insert info")
 		ape.RenderErr(w, problems.Conflict())
 		return
 	}
 
-	storage[request.Name] = resources.EnvConfig{
-		Status: "processing",
-	}
-
-	Tasks(r) <- request.Name
-
-	w.WriteHeader(http.StatusNoContent)
+	response := responses.NewCreateNodeResponse(result, data.Account{ID: accountID})
+	ape.Render(w, response)
 }

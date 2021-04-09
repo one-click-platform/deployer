@@ -1,0 +1,33 @@
+post:
+  security:
+    - bearerAuth: []
+  tags:
+    - Environments
+  summary: Add environment
+  operationId: addEnv
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              $ref: '#/components/schemas/Environment'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                $ref: '#/components/schemas/Environment'
+    '401':
+      $ref: '#/components/schemas/Errors'
+    '409':
+      $ref: '#/components/schemas/Errors'

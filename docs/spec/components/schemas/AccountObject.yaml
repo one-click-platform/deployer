@@ -1,0 +1,20 @@
+allOf:
+  - $ref: '#/components/schemas/AccountObjectKey'
+  - type: object
+    required:
+      - attributes
+    properties:
+      attributes:
+        type: object
+        required:
+          - email
+          - verified
+        properties:
+          email:
+            type: string
+          access-token:
+            type: string
+          expiry:
+            type: integer
+          verified:
+            type: boolean

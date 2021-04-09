@@ -2,6 +2,7 @@ package requests
 
 import (
 	"encoding/json"
+	"github.com/one-click-platform/deployer/resources"
 	"net/http"
 	"strings"
 
@@ -11,7 +12,7 @@ import (
 )
 
 type CreateNodeRequest struct {
-	Name string `json:"name"`
+	Data resources.Environment
 }
 
 func NewCreateNodeRequest(r *http.Request) (CreateNodeRequest, error) {
@@ -21,13 +22,13 @@ func NewCreateNodeRequest(r *http.Request) (CreateNodeRequest, error) {
 		return request, errors.Wrap(err, "failed to unmarshal")
 	}
 
-	request.Name = strings.ReplaceAll(request.Name, " ", "")
+	request.Data.Attributes.Name = strings.ReplaceAll(request.Data.Attributes.Name, " ", "")
 
 	return request, request.validate()
 }
 
 func (r *CreateNodeRequest) validate() error {
 	return validation.Errors{
-		"name": validation.Validate(&r.Name, validation.Required, validation.Length(1, 100)),
+		"data/attributes/name": validation.Validate(&r.Data.Attributes.Name, validation.Required, validation.Length(1, 100)),
 	}.Filter()
 }
