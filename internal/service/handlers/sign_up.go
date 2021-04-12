@@ -26,8 +26,8 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	}
 
 	result, err := AccountsQ(r).Insert(data.Account{
-		Email:    request.Data.Attributes.Email,
-		Password: hashedPassword,
+		Email:        request.Data.Attributes.Email,
+		PasswordHash: hashedPassword,
 	})
 	if err != nil {
 		Log(r).WithError(err).Info("Failed to create account")

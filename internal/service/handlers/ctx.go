@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"github.com/one-click-platform/deployer/internal/data"
+	"github.com/one-click-platform/deployer/internal/service/auth"
 	"net/http"
 
 	"github.com/one-click-platform/deployer/resources"
@@ -18,6 +19,8 @@ const (
 	storageCtxKey
 	tasksCtxKey
 	accountsQCtxKey
+	jwtCtxKey
+	jwtPayloadCtxKey
 )
 
 func CtxLog(entry *logan.Entry) func(context.Context) context.Context {
@@ -68,4 +71,24 @@ func CtxAccountsQ(entry data.AccountsQ) func(context.Context) context.Context {
 
 func AccountsQ(r *http.Request) data.AccountsQ {
 	return r.Context().Value(accountsQCtxKey).(data.AccountsQ).New()
+}
+
+func CtxJwtHandler(entry auth.JWTokenCfg) func(context.Context) context.Context {
+	return func(ctx context.Context) context.Context {
+		return context.WithValue(ctx, jwtCtxKey, entry)
+	}
+}
+
+func JwtHandler(r *http.Request) auth.JWTokenCfg {
+	return r.Context().Value(jwtCtxKey).(auth.JWTokenCfg)
+}
+
+func CtxJWTPayload(entry string) func(context.Context) context.Context {
+	return func(ctx context.Context) context.Context {
+		return context.WithValue(ctx, jwtPayloadCtxKey, entry)
+	}
+}
+
+func JWTPayload(r *http.Request) string {
+	return r.Context().Value(jwtPayloadCtxKey).(string)
 }

@@ -26,6 +26,9 @@ github.com/cespare/xxhash/v2
 github.com/davecgh/go-spew/spew
 # github.com/deckarep/golang-set v0.0.0-20180603214616-504e848d77ea
 github.com/deckarep/golang-set
+# github.com/dgrijalva/jwt-go/v4 v4.0.0-preview1
+## explicit
+github.com/dgrijalva/jwt-go/v4
 # github.com/edsrzf/mmap-go v1.0.0
 github.com/edsrzf/mmap-go
 # github.com/ethereum/go-ethereum v1.10.1
@@ -186,6 +189,8 @@ github.com/konsorten/go-windows-terminal-sequences
 github.com/lann/builder
 # github.com/lann/ps v0.0.0-20150810152359-62de8c46ede0
 github.com/lann/ps
+# github.com/lestrrat-go/jwx v1.1.7
+## explicit
 # github.com/lib/pq v1.8.0
 github.com/lib/pq
 github.com/lib/pq/oid
@@ -214,7 +219,7 @@ github.com/one-click-platform/system-contracts/generated
 github.com/pelletier/go-toml
 # github.com/peterh/liner v1.1.1-0.20190123174540-a2c9a5303de7
 github.com/peterh/liner
-# github.com/pkg/errors v0.8.1
+# github.com/pkg/errors v0.9.1
 ## explicit
 github.com/pkg/errors
 # github.com/prometheus/tsdb v0.7.1
@@ -291,7 +296,7 @@ gitlab.com/distributed_lab/logan/v3/fields
 gitlab.com/distributed_lab/lorem
 # gitlab.com/distributed_lab/running v0.0.0-20200706131153-4af0e83eb96c
 gitlab.com/distributed_lab/running
-# golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
+# golang.org/x/crypto v0.0.0-20201217014255-9d1352758620
 ## explicit
 golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blowfish
@@ -301,17 +306,20 @@ golang.org/x/crypto/ripemd160
 golang.org/x/crypto/scrypt
 golang.org/x/crypto/sha3
 golang.org/x/crypto/ssh/terminal
-# golang.org/x/net v0.0.0-20200822124328-c89045814202
+# golang.org/x/net v0.0.0-20201021035429-f5854403a974
 golang.org/x/net/html
 golang.org/x/net/html/atom
 golang.org/x/net/html/charset
-# golang.org/x/sync v0.0.0-20200317015054-43a5402ce75a
+# golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
 golang.org/x/sync/errgroup
 # golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c
 golang.org/x/sys/cpu
 golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/plan9
 golang.org/x/sys/unix
 golang.org/x/sys/windows
+# golang.org/x/term v0.0.0-20201117132131-f5c789dd3221
+golang.org/x/term
 # golang.org/x/text v0.3.3
 golang.org/x/text/encoding
 golang.org/x/text/encoding/charmap
