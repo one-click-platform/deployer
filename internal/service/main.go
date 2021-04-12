@@ -1,6 +1,7 @@
 package service
 
 import (
+	"gitlab.com/distributed_lab/kit/pgdb"
 	"net"
 	"net/http"
 
@@ -16,9 +17,11 @@ type service struct {
 	log      *logan.Entry
 	copus    types.Copus
 	listener net.Listener
-	storage  map[string]resources.EnvConfig
-	tasks    chan string
-	cfg      config.Config
+
+	storage map[string]resources.EnvConfig
+	tasks   chan string
+	cfg     config.Config
+	db      *pgdb.DB
 }
 
 func (s *service) run() error {
@@ -44,6 +47,7 @@ func newService(cfg config.Config) *service {
 		log:      cfg.Log(),
 		copus:    cfg.Copus(),
 		listener: cfg.Listener(),
+		db:       cfg.DB(),
 		storage:  make(map[string]resources.EnvConfig),
 		tasks:    make(chan string),
 		cfg:      cfg,

@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"github.com/one-click-platform/deployer/internal/data"
 	"net/http"
 
 	"github.com/one-click-platform/deployer/resources"
@@ -16,6 +17,7 @@ const (
 	githubKeyCtxKey
 	storageCtxKey
 	tasksCtxKey
+	accountsQCtxKey
 )
 
 func CtxLog(entry *logan.Entry) func(context.Context) context.Context {
@@ -56,4 +58,14 @@ func CtxTasks(entry chan string) func(context.Context) context.Context {
 
 func Tasks(r *http.Request) chan string {
 	return r.Context().Value(tasksCtxKey).(chan string)
+}
+
+func CtxAccountsQ(entry data.AccountsQ) func(context.Context) context.Context {
+	return func(ctx context.Context) context.Context {
+		return context.WithValue(ctx, accountsQCtxKey, entry)
+	}
+}
+
+func AccountsQ(r *http.Request) data.AccountsQ {
+	return r.Context().Value(accountsQCtxKey).(data.AccountsQ).New()
 }
